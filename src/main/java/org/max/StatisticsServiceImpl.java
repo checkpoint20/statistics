@@ -1,16 +1,16 @@
 package org.max;
 
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
-import java.util.concurrent.ArrayBlockingQueue;
-import java.util.concurrent.BlockingQueue;
+import java.util.Arrays;
 import java.util.concurrent.LinkedBlockingQueue;
 
 @Service
 public class StatisticsServiceImpl implements StatisticsService {
 
-    private BlockingQueue<Transaction> input = new LinkedBlockingQueue<>();
-    private BlockingQueue<Statistics> minute = new ArrayBlockingQueue<>(60);
+    private final LinkedBlockingQueue<Transaction> input = new LinkedBlockingQueue<>();
+    private Statistics[] minute = new Statistics[60];
 
     @Override
     public void add(Transaction t) {
@@ -19,12 +19,20 @@ public class StatisticsServiceImpl implements StatisticsService {
 
     @Override
     public Statistics getForLast60Sec() {
-        return snap(minute);
+        return collect(minute);
     }
 
-    private static Statistics snap(BlockingQueue<Statistics> snapshot) {
-        return snapshot.stream()
+    static Statistics collect(Statistics[] snapshot) {
+        return Arrays.stream(snapshot)
                 .reduce(Statistics::combine)
                 .orElseThrow(() -> new IllegalStateException("Empty 1 min statistics snapshot"));
+    }
+
+    @Scheduled
+    void pollInput() throws InterruptedException {
+        while (true) {
+            Transaction t = input.take();
+
+        }
     }
 }
