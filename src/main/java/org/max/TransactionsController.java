@@ -19,10 +19,10 @@ public class TransactionsController {
 
     @RequestMapping(value = "/transactions", method = RequestMethod.POST)
     public ResponseEntity<Void> add(@Valid @NotNull @RequestBody Transaction transaction) {
-        if(transaction.isOlderThan60Sec()) {
-            servise.add(transaction);
+        if(transaction.isInvalid()) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         } else {
+            servise.add(transaction);
             return new ResponseEntity<>(HttpStatus.CREATED);
         }
     }
