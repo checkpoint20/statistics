@@ -36,7 +36,7 @@ public final class Statistics {
     }
 
     public double getAvg() {
-        return sum / count;
+        return count == 0 ? 0 : sum / count;
     }
 
     @Override
