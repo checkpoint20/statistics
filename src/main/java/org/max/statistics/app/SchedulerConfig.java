@@ -1,4 +1,4 @@
-package org.max;
+package org.max.statistics.app;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.SchedulingConfigurer;

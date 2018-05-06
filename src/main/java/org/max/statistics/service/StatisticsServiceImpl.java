@@ -1,5 +1,7 @@
-package org.max;
+package org.max.statistics.service;
 
+import org.max.statistics.model.Statistics;
+import org.max.statistics.model.Transaction;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 

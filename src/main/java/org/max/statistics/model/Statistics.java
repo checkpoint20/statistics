@@ -1,4 +1,4 @@
-package org.max;
+package org.max.statistics.model;
 
 import java.util.Objects;
 

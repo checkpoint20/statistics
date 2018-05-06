@@ -1,6 +1,8 @@
-package org.max;
+package org.max.statistics.service;
 
 import org.junit.Test;
+import org.max.statistics.model.Statistics;
+import org.max.statistics.model.Transaction;
 
 import static org.junit.Assert.*;
 

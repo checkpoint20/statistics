@@ -1,4 +1,4 @@
-package org.max;
+package org.max.statistics.app;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

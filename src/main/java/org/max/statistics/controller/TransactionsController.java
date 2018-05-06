@@ -1,5 +1,7 @@
-package org.max;
+package org.max.statistics.controller;
 
+import org.max.statistics.model.Transaction;
+import org.max.statistics.service.StatisticsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
