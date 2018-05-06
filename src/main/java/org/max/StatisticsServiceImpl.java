@@ -61,8 +61,8 @@ public class StatisticsServiceImpl implements StatisticsService {
 
     /**
      * We processing input transactions in one thread.
-     * 1. Because of mechanical sympathy (no context switches) it's going to be very fast;
-     * 2. It helps to handle concurrency properly.
+     * 1. because of mechanical sympathy (no context switches) it's going to be very fast;
+     * 2. it helps to handle concurrency properly.
      */
     @Scheduled(fixedDelay = 1)
     void pollInput() {
@@ -76,15 +76,13 @@ public class StatisticsServiceImpl implements StatisticsService {
                 break;
             }
 
-            System.out.println(t);
-
             long now = Instant.now().getEpochSecond();
             lastProcessedSec = shiftBuffer(now, lastProcessedSec, buffer);
             if (t.isNotHeartBeat()) {
                 applyTransaction(t, now, buffer);
             }
 
-
+            // Using java reference assignment atomicity to substitute changed buffer.
             this.minute = snap(buffer);
         }
     }
@@ -95,7 +93,7 @@ public class StatisticsServiceImpl implements StatisticsService {
      * @return The snapshot.
      */
     static Statistics[] snap(Statistics[] buf) {
-        Statistics[] internal = new Statistics[SEC_60];
+        Statistics[] internal = new Statistics[buf.length];
         System.arraycopy(buf, 0, internal, 0, buf.length);
         return internal;
     }
@@ -110,8 +108,8 @@ public class StatisticsServiceImpl implements StatisticsService {
     static void applyTransaction(Transaction t, long now, Statistics[] buf) {
         assert t.isNotHeartBeat();
         long offset = now - t.getTimestampSeconds();
-        if (offset < SEC_60) {
-            int i = (int) (buf.length - offset);
+        if (offset <= buf.length - 1) {
+            int i = (int) (buf.length - 1 - offset);
             buf[i] = buf[i].add(t);
         }
     }
