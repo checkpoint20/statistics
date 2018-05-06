@@ -4,6 +4,6 @@ import org.max.statistics.model.Statistics;
 import org.max.statistics.model.Transaction;
 
 public interface StatisticsService {
-    void add(Transaction t);
+    boolean add(Transaction t);
     Statistics getForLast60Sec();
 }

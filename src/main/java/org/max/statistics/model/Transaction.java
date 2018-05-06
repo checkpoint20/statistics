@@ -53,9 +53,9 @@ public final class Transaction {
                 '}';
     }
 
-    public boolean isInvalid() {
+    public boolean isValid() {
         long offset = System.currentTimeMillis() - timestamp;
-        return offset > ONE_MIN_IN_MILLIS || offset < 0;
+        return offset <= ONE_MIN_IN_MILLIS && offset >= 0;
     }
 
     public boolean isNotHeartBeat() {

@@ -35,8 +35,13 @@ public class StatisticsServiceImpl implements StatisticsService {
     }
 
     @Override
-    public void add(Transaction t) {
-        transactions.add(t);
+    public boolean add(Transaction t) {
+        if(t.isValid()) {
+            transactions.add(t);
+            return true;
+        } else {
+            return false;
+        }
     }
 
     @Override
