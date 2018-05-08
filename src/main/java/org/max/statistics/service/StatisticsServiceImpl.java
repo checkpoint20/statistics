@@ -36,12 +36,7 @@ public class StatisticsServiceImpl implements StatisticsService {
 
     @Override
     public boolean add(Transaction t) {
-        if(t.isValid()) {
-            transactions.add(t);
-            return true;
-        } else {
-            return false;
-        }
+        return t.isValid() && transactions.add(t);
     }
 
     @Override
@@ -89,7 +84,7 @@ public class StatisticsServiceImpl implements StatisticsService {
                 applyTransaction(t, now, buffer);
             }
 
-            // Using java reference assignment atomicity to substitute changed buffer.
+            // Using java reference assignment atomicity to substitute a refreshed buffer.
             this.minute = snap(buffer);
         }
     }
@@ -106,7 +101,7 @@ public class StatisticsServiceImpl implements StatisticsService {
     }
 
     /**
-     * Calculates proper position of a transaction in the buffer and
+     * Calculates a proper position of a transaction in the buffer and
      * puts it to the buffer.
      * @param t The transaction to put to the buffer.
      * @param now The current timestamp. It corresponds to the rightest element of the buffer.
